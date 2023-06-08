@@ -1,0 +1,10 @@
+.articleCard{
+    opacity: 1;
+    transition: ease-in-out .5s;
+    margin: 10px 12px;
+}
+
+.articleCard:hover{
+    cursor: pointer;
+    opacity: 0.6;
+}
