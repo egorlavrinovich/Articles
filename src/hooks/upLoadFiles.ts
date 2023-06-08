@@ -20,8 +20,7 @@ export function LoadImg() {
 
     setIsLoadFile(false)
 
-    uploadBytes(cartoonRef, file).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
+    uploadBytes(cartoonRef, file).then(() => {
       setIsLoadFile(true)
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         setUrl(downloadURL);

@@ -1,11 +1,6 @@
 export const defaultTopic = {
   id: Date.now(),
   notes: [
-    {
-      id: Date.now(),
-      articleDescription: "",
-      img: "",
-    },
   ],
 };
 export const defaultCard = {

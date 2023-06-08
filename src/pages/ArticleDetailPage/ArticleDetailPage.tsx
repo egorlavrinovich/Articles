@@ -13,7 +13,7 @@ import {
 import Topic from "../../components/Topic/Topic";
 import { LoadImg } from "../../hooks/upLoadFiles";
 import "./articleDetailPage.css";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const ArticleDetailPage = () => {
   const [topic, setTopic] = React.useState<IArticles>();
@@ -32,7 +32,7 @@ const ArticleDetailPage = () => {
 
   const navigate = useNavigate();
 
-  const toPreviousPage = () => navigate(-1) // навигация на предыдущую страницу
+  const toPreviousPage = () => navigate(-1); // навигация на предыдущую страницу
 
   const activeItem = () => {
     // + в нижнем правом углу (добавление элемента)
@@ -48,15 +48,28 @@ const ArticleDetailPage = () => {
     ///@ts-ignore
     const result: INotes = { ...topic, notes: [...topic?.notes, ...[note]] }; // создаём результирующий объект
     addTopicData(result, "topic", `${articleId}`);
-    setNote({ ...note, articleDescription: "", img: "" }); // обнуляем инпуты
+    setNote({ id: Date.now(), articleDescription: "", img: "" }); // обнуляем инпуты
     fetchTopic();
   };
 
-  const updateItem = (note: INotes) => { // обновление записи
+  const updateItem = (note: INotes) => {
+    // обновление записи
     if (note) {
       const resultNotes = topic?.notes?.map((item) =>
         item?.id === note?.id ? note : item
       );
+      const result = { ...topic, notes: resultNotes } as IArticles;
+      addTopicData(result, "topic", `${articleId}`);
+      fetchTopic();
+    }
+  };
+
+  const deleteItem = (note: INotes) => {
+    // удаление записи
+    if (note) {
+      const resultNotes = topic?.notes?.filter(
+        (item) => item?.id !== note?.id
+      );
       const result = { ...topic, notes: resultNotes };
       //@ts-ignore
       addTopicData(result, "topic", `${articleId}`);
@@ -64,19 +77,7 @@ const ArticleDetailPage = () => {
     }
   };
 
-  const deleteItem = (note: INotes) => { // удаление записи
-    if (note) {
-      const resultNotes = topic?.notes?.filter((item) =>
-        item?.id !== note?.id
-      );
-      const result = { ...topic, notes: resultNotes };
-      //@ts-ignore
-      addTopicData(result, "topic", `${articleId}`);
-      fetchTopic();
-    }
-  }
-
-  const editItem = () => { //! Избавиться и протестить
+  const editItem = () => {
     setIsEdit(!isEdit);
   };
 
@@ -105,7 +106,7 @@ const ArticleDetailPage = () => {
   useEffect(() => {
     fetchTopic(); // подгрузка данных
   }, []);
-  
+
   return (
     <div className="article_detail_page">
       <Container
@@ -119,8 +120,11 @@ const ArticleDetailPage = () => {
           padding: "1% 0",
         }}
       >
-        <div onClick={toPreviousPage} className='toPreviousPage'><ArrowBackIcon /></div>
-        {!isAddItem&&<EditItem isActive={isEdit} setIsActive={editItem} />}
+        <div onClick={toPreviousPage} className="toPreviousPage">
+          <ArrowBackIcon />
+        </div>
+        {!isAddItem && <EditItem isActive={isEdit} setIsActive={editItem} />}
+        <div className='topic-title'>{topic?.articleDescription}</div>
         {topic?.notes?.map((item) => (
           <Topic
             key={item?.articleDescription}
@@ -130,7 +134,7 @@ const ArticleDetailPage = () => {
             deleteItem={deleteItem}
           />
         ))}
-        {!isAddItem&&!isEdit&&<AddItem handleOpen={activeItem} />}
+        {!isAddItem && !isEdit && <AddItem handleOpen={activeItem} />}
         <>
           {isAddItem && !isEdit && (
             <div className="addBlock">
@@ -151,15 +155,16 @@ const ArticleDetailPage = () => {
                 isLoadFile={isLoadFile}
               />
               <div className="manage-block">
-              <Button
-                  onClick={activeItem}
-                  variant="outlined"
-                >
+                <Button onClick={activeItem} variant="outlined">
                   Отмена
                 </Button>
                 <Button
                   disabled={isAddedText}
-                  onClick={()=>{addItem();activeItem(); fetchTopic()}}
+                  onClick={() => {
+                    addItem();
+                    activeItem();
+                    fetchTopic();
+                  }}
                   variant="contained"
                   color="success"
                 >

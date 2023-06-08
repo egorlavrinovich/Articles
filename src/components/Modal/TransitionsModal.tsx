@@ -66,7 +66,7 @@ export default function TransitionsModal(props: ITransitionsModal) {
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <>
       {!isEdit && <AddItem handleOpen={handleOpen} />}
       <Modal
         aria-labelledby="transition-modal-title"
@@ -127,7 +127,7 @@ export default function TransitionsModal(props: ITransitionsModal) {
               )}
               <>
                 {fields.map((item) => (
-                  <Grid container>
+                  <Grid container key={item.label}>
                     <Grid item xs={12} md={4} lg={4}>
                       <Typography className="title">
                         {item?.nameOfFiled}
@@ -181,6 +181,6 @@ export default function TransitionsModal(props: ITransitionsModal) {
           </Box>
         </Fade>
       </Modal>
-    </div>
+    </>
   );
 }

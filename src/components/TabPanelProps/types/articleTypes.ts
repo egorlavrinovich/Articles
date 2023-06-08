@@ -8,6 +8,7 @@ export interface INotes{
 
 export interface IArticles {
   id:string|number;
+  articleDescription: string;
   notes?:INotes[]
 }
 

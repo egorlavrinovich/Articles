@@ -1,9 +1,7 @@
 import { Box, CircularProgress } from "@mui/material";
 
-interface LoaderProps {}
 
-const Loader = (props: LoaderProps) => {
-  const {} = props;
+const Loader = () => {
   return (
       <Box
         sx={{

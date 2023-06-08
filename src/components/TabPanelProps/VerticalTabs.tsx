@@ -66,7 +66,6 @@ export default function VerticalTabs({
   };
 
   const setFieldsValues = (
-    //! написать хук
     e:
       | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
       | SelectChangeEvent
@@ -88,14 +87,14 @@ export default function VerticalTabs({
     }
   };
 
-  const renderArticleContent = (item: IThemes, index: number) => {
+  const renderArticleContent = (themes: IThemes, index: number) => {
     return (
-      <TabPanel value={value} index={index}>
-        <Grid container>
-          {item?.cards?.map((items, index) => (
-            <Grid xs={12} sm={6} md={3} key={index}>
-              <div className="card" onClick={() => editCard(items)}>
-                <ArticleCard edit={isEdit} {...items} />
+      <TabPanel value={value} index={index} key={themes.url}>
+        <Grid container item>
+          {themes?.cards?.map((theme) => (
+            <Grid item xs={12} sm={6} md={3} key={theme.id}>
+              <div className="card" onClick={() => editCard(theme)}>
+                <ArticleCard edit={isEdit} {...theme}/>
               </div>
             </Grid>
           ))}
@@ -105,7 +104,7 @@ export default function VerticalTabs({
   };
 
   const renderArticleLabel = (item: IThemes, index: number) => {
-    return <Tab label={item?.tabName} {...a11yProps(index)} />;
+    return <Tab label={item?.tabName} {...a11yProps(index)} key={item.url} />;
   };
 
   return (

@@ -24,18 +24,16 @@ const MainPage = () => {
 
   const [addCard, setAddCard] = useState<boolean>(false);
 
-  const sortArticles = (articles: IThemes[]) =>
-    articles.sort((a, b) => a?.id - b?.id); // Сортируем темы
+  const sortArticles = (articles: IThemes[]) => articles.sort((a, b) => a?.id - b?.id); // Сортируем темы
 
   const fetchThemes = React.useCallback(async () => {
-    const response = await getUserData({ path: "articles" });
-    //@ts-ignore
-    setThemes(sortArticles(response));
+    const response = await getUserData();
+    setThemes(sortArticles(response as IThemes[]));
   }, []);
 
   const createArticle = useCallback(async () => {
     const topicId = Date.now();
-    await addTopicData(defaultTopic, "topic", topicId);
+    await addTopicData( { ...defaultTopic, articleDescription : cards.title || '' }, "topic", topicId);
     await addTopicData(
       //@ts-ignore
       { ...cards, topicId, id: Date.now(), img: cards.img || defaultImages[cards.articleUrl] || ''},
@@ -74,7 +72,7 @@ const MainPage = () => {
   };
 
   return (
-    <div className="dd">
+    <div className="mainPage">
       <VerticalTabs fetchThemes={fetchThemes} themes={themes} load={load} />
       <TransitionsModal
         open={addCard}

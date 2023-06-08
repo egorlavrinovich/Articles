@@ -18,10 +18,19 @@ export default function ArticleCard({
   title,
   edit = false,
 }: IArticleCard) {
-
+  
   const linkToComponent = useCallback(
     (component: ReactNode) => {
-      if (!edit) return <Link style={{textDecoration:'none', color:'black'}} to={`article/${topicId}`}>{component}</Link>;
+      if (!edit)
+        return (
+          <Link
+            key={title}
+            style={{ textDecoration: "none", color: "black" }}
+            to={`article/${topicId}`}
+          >
+            {component}
+          </Link>
+        );
       else return component;
     },
     [edit, topicId]
@@ -30,9 +39,13 @@ export default function ArticleCard({
   return (
     <>
       {linkToComponent(
-        <Card className="articleCard" sx={{ maxHeight: "35vh", display:'flex', flexDirection:'column' }}>
+        <Card
+          key={topicId}
+          className="articleCard"
+          sx={{ maxHeight: "35vh", display: "flex", flexDirection: "column" }}
+        >
           <CardMedia
-            sx={{ width: "60%", objectFit: "contain", alignSelf:'center' }}
+            sx={{ width: "60%", objectFit: "contain", alignSelf: "center" }}
             component="img"
             alt="Картинка"
             image={img}
@@ -41,7 +54,13 @@ export default function ArticleCard({
             <Typography
               gutterBottom
               component="div"
-              sx={{ display: "flex", justifyContent: "center", textDecoration:'none', fontWeight:'500', textIndent:'15px' }}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                textDecoration: "none",
+                fontWeight: "500",
+                textIndent: "15px",
+              }}
             >
               {title}
             </Typography>

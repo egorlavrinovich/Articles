@@ -10,11 +10,11 @@ interface TopicProps {
   topic: INotes;
   isEdit: boolean;
   updateItem: (note: INotes) => void;
-  deleteItem: (note: INotes) => void
+  deleteItem: (note: INotes) => void;
 }
 
 const Topic = (props: TopicProps) => {
-  const { topic, isEdit, updateItem , deleteItem } = props;
+  const { topic, isEdit, updateItem, deleteItem } = props;
 
   const [note, setNote] = useState<INotes>({
     id: topic?.id,
@@ -34,7 +34,6 @@ const Topic = (props: TopicProps) => {
         setNote({ ...note, articleDescription: e.target.value });
         return;
       case "images":
-        //@ts-ignore
         return loadImg(e);
       case "urlImage":
         setNote({ ...note, img: e.target.value });
@@ -45,23 +44,29 @@ const Topic = (props: TopicProps) => {
   };
 
   useEffect(() => {
-    if (url) setNote({ ...note, img: url }); //ждём подгрузку файла из firebase
+    if (url) setNote({ ...note, img: url }); // ждём подгрузку файла из firebase
   }, [url]);
 
   return (
     <>
-      <div className="topic" onClick={() => setEditTopic(!editTopic)}>
+      <div
+        key={note.articleDescription}
+        className="topic"
+        onClick={() => setEditTopic(!editTopic)}
+      >
         <div>{note?.articleDescription}</div>
-        {note?.img&&<CardMedia
-          sx={{ maxHeight: "450px", width: "90%", objectFit: "contain" }}
-          component="img"
-          alt="Картинка"
-          image={note?.img}
-        />}
+        {note?.img && (
+          <CardMedia
+            sx={{ maxHeight: "450px", width: "90%", objectFit: "contain" }}
+            component="img"
+            alt="Картинка"
+            image={note?.img}
+          />
+        )}
       </div>
       {editTopic && isEdit && (
         <div className="editTopicBlock">
-          <div className='title'>Редактирование</div>
+          <div className="title">Редактирование</div>
           <Input
             name="text"
             value={note?.articleDescription}
@@ -69,10 +74,10 @@ const Topic = (props: TopicProps) => {
           />
           <Input name="urlImage" value={note?.img} onChange={topicContent} />
           <AddFileInput topicContent={topicContent} isLoadFile={isLoadFile} />
-          <div className='manage-block'>
+          <div className="manage-block">
             <Button
               onClick={() => {
-                deleteItem(note)
+                deleteItem(note);
                 setEditTopic(!editTopic);
               }}
               variant="contained"

@@ -11,15 +11,11 @@ import {
 } from "../TabPanelProps/types/articleTypes";
 import { firebaseConfig } from "../../config/fireBaseConfig";
 
-interface IRequestParam {
-  path: string;
-}
-
 export function GetArticles() {
   const [load, setLoad] = React.useState(false);
   const [err, setErr] = React.useState("");
 
-  async function getUserData({ path }: IRequestParam) {
+  async function getUserData() {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     try {

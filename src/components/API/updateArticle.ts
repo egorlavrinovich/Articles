@@ -15,8 +15,7 @@ export function UpdateArticles() {
     try {
       setLoad(true);
       const articleRef = doc(db, `${article.articleUrl}`, `${article.id}`);
-      //@ts-ignore
-      await updateDoc(articleRef,  article );
+      await updateDoc(articleRef,  article as any );
     } catch (err) {
       setErr(err as string);
     } finally {
